@@ -69,7 +69,7 @@ function App() {
 
   return (
     <>
-      <Box sx={{ flexGrow: 1 }}>
+      <Box sx={{ flexGrow: 1, overflowX: 'none' }}>
         <AppBar position="static">
           <Toolbar variant="dense">
             <IconButton

@@ -1,6 +1,7 @@
 import {
   Alert,
   Button,
+  FormControl,
   Input,
   Snackbar,
   Stack,
@@ -14,30 +15,39 @@ export const Search = ({ contract }: any) => {
   const {
     register,
     handleSubmit,
-    watch,
     formState: { errors },
   } = useForm();
   const onSubmit = async (data: any) =>
     setUsername(await contract.members(data.address));
 
   return (
-    <form onSubmit={handleSubmit(onSubmit)}>
-      {/* <Stack direction={'row'} spacing={2} sx={{ marginY: '50px' }}> */}
-      <Input
-        placeholder="Address to check"
-        {...register('address', { required: true })}
-      />
-      <Button type={'submit'} variant="contained">
-        Search
-      </Button>
-      <Snackbar open={username != null} autoHideDuration={4000}>
-        <Alert severity="info" sx={{ width: '100%' }}>
+    <>
+      <FormControl
+        component={'form'}
+        onSubmit={handleSubmit(onSubmit)}
+        sx={{
+          paddingY: '25px',
+          display: 'flex',
+          flexDirection: 'row',
+        }}
+      >
+        <Input
+          placeholder="Address to check"
+          {...register('address', { required: true })}
+        />
+        <Button type={'submit'} variant="contained" sx={{ marginLeft: '10px' }}>
+          Search
+        </Button>
+      </FormControl>
+      {errors.address && <Alert severity="error">Address is required</Alert>}
+      {username && !errors.address && (
+        <Alert severity="info">
           This address is{' '}
           <Typography component="span" sx={{ fontWeight: 'bold' }}>
             {username}
           </Typography>
         </Alert>
-      </Snackbar>
-    </form>
+      )}
+    </>
   );
 };
