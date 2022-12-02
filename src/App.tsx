@@ -10,6 +10,7 @@ import {
 } from '@mui/material';
 import { Contract } from 'ethers';
 import { useEffect, useState } from 'react';
+import { CheckKey } from './components/CheckKey';
 import { MessageBox } from './components/message';
 import { Search } from './components/Search';
 import { getTopSecretContract } from './hooks';
@@ -77,7 +78,12 @@ function App() {
               sx={{ mr: 2 }}
             ></IconButton>
             <Typography variant="h6" color="inherit" component="div">
-              SidoMessages
+              SidoMessages{' '}
+            </Typography>
+            <Typography sx={{
+            marginLeft: 20,
+            }} variant="h6" color="inherit" component="div">
+              {address}
             </Typography>
           </Toolbar>
         </AppBar>
@@ -105,13 +111,19 @@ function App() {
             />
           ))}
 
-        <Button
+        {/* {<Button
           variant="outlined"
           disabled={true}
-          // disabled={!address}  // TODO: enable when contract method is usable by anyone
+          // disabled={!address}  method revert because only owner can add members
         >
           add name
-        </Button>
+        </Button>} */}
+
+        <p>Pour submit un message trouvé : </p>
+        <CheckKey contract={contract}>  
+
+        </CheckKey>
+
       </Container>
     </>
   );
