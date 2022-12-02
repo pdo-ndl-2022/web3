@@ -101,6 +101,9 @@ function App() {
             <CircularProgress />
           </Box>
         )}
+        <Button onClick={async () => setMessages(await allMessages())} variant="contained" >
+          Refresh messages
+        </Button>
         {!isLoading &&
           messages.map((message: Message, index: number) => (
             <MessageBox
@@ -119,7 +122,7 @@ function App() {
           add name
         </Button>} */}
 
-        <p>Pour submit un message trouvé : </p>
+        <p>To submit a key</p>
         <CheckKey contract={contract}>  
 
         </CheckKey>

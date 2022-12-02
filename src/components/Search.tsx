@@ -18,8 +18,9 @@ export const Search = ({ contract }: any) => {
     formState: { errors },
   } = useForm();
   const onSubmit = async (data: any) =>
-    setUsername(await contract.members(data.address));
-
+    {contract.members(data.address).then((username: string) => {
+      setUsername(username);
+    })};
   return (
     <>
       <FormControl
