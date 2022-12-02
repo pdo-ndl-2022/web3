@@ -8,6 +8,7 @@ import {
   Toolbar,
   Typography,
 } from '@mui/material';
+import { Contract } from 'ethers';
 import { useEffect, useState } from 'react';
 import { MessageBox } from './components/message';
 import { Search } from './components/Search';
@@ -22,7 +23,7 @@ export type Message = {
 
 function App() {
   const [provider, address, signer] = useConnectWallet();
-  const [contract, setContract] = useState<any>(null);
+  const [contract, setContract] = useState<Contract | null>(null);
   const [messages, setMessages] = useState<Message[]>([]);
   const [isLoading, setIsLoading] = useState(false);
 
@@ -34,18 +35,15 @@ function App() {
       allMessages().then((messages) => {
         setMessages(messages);
         setIsLoading(false);
-        // contract.createKey(BigNumber.from('0x42'), {gasLimit: 1000000}).then((tx) => {
-        //   console.log(tx);
-        // });
       });
     }
   }, [provider]);
 
   async function getMessagesCount() {
-    return await contract.messageCount();
+    return await contract?.messageCount();
   }
   async function getMessage(indice: number) {
-    return await contract.messages(indice);
+    return await contract?.messages(indice);
   }
 
   async function allMessages() {
@@ -60,11 +58,11 @@ function App() {
   }
 
   async function searchMember(address: string) {
-    return await contract.members(address);
+    return await contract?.members(address);
   }
 
   async function addMember(name: string) {
-    return await contract.addMember(address, name, { gasLimit: 1000000 });
+    return await contract?.addMember(address, name, { gasLimit: 1000000 });
   }
 
   return (
@@ -108,9 +106,9 @@ function App() {
           ))}
 
         <Button
-          onClick={async () => {
-            console.log(await addMember('test'));
-          }}
+          variant="outlined"
+          disabled={true}
+          // disabled={!address}  // TODO: enable when contract method is usable by anyone
         >
           add name
         </Button>
