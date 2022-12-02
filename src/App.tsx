@@ -21,7 +21,7 @@ export type Message = {
 };
 
 function App() {
-  const [provider, address, signer, error] = useConnectWallet();
+  const [provider, address, signer] = useConnectWallet();
   const [contract, setContract] = useState<any>(null);
   const [messages, setMessages] = useState<Message[]>([]);
   const [isLoading, setIsLoading] = useState(false);
@@ -91,7 +91,7 @@ function App() {
           alignItems: 'center',
         }}
       >
-        <Search />
+        <Search contract={contract} />
         {isLoading && (
           <Box sx={{ display: 'flex', marginY: '10px' }}>
             <CircularProgress />

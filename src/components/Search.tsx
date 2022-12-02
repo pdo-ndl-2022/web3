@@ -1,10 +1,43 @@
-import { Button, Input, Stack } from '@mui/material';
+import {
+  Alert,
+  Button,
+  Input,
+  Snackbar,
+  Stack,
+  Typography,
+} from '@mui/material';
+import { useState } from 'react';
+import { useForm } from 'react-hook-form';
 
-export const Search: React.FC = () => {
+export const Search = ({ contract }: any) => {
+  const [username, setUsername] = useState<String | null>(null);
+  const {
+    register,
+    handleSubmit,
+    watch,
+    formState: { errors },
+  } = useForm();
+  const onSubmit = async (data: any) =>
+    setUsername(await contract.members(data.address));
+
   return (
-    <Stack direction={'row'} spacing={2} sx={{ marginY: '50px' }}>
-      <Input placeholder="0x53c74fb1e05c968b7b021484931f083aad0d3a3bfc97f36f0b11d1b7e1a4af6e" />
-      <Button variant="contained">Search</Button>
-    </Stack>
+    <form onSubmit={handleSubmit(onSubmit)}>
+      {/* <Stack direction={'row'} spacing={2} sx={{ marginY: '50px' }}> */}
+      <Input
+        placeholder="Address to check"
+        {...register('address', { required: true })}
+      />
+      <Button type={'submit'} variant="contained">
+        Search
+      </Button>
+      <Snackbar open={username != null} autoHideDuration={4000}>
+        <Alert severity="info" sx={{ width: '100%' }}>
+          This address is{' '}
+          <Typography component="span" sx={{ fontWeight: 'bold' }}>
+            {username}
+          </Typography>
+        </Alert>
+      </Snackbar>
+    </form>
   );
 };
